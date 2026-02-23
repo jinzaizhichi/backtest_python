@@ -1216,7 +1216,10 @@ class KLineChart():
         self.chart.reset(remain)
         self.preTime = 0
 
-    def close(self):
+    def close(self, bar=None):
+        if bar:
+            self.bar = bar
+
         if self.bar["Time"] < self.preTime:
             return
 
@@ -1558,8 +1561,8 @@ class VCtx(object):
         if platform.processor() == "arm":
             archName = 'arm64' if archName == '64bit' else 'arm'
         self.os = '%s/%s' % (osName.lower(), archName)
-        soName = 'backtest_py_%s_%s_v2.so' % (osName.lower(), archName)
-        crcFile = 'md5_v2.json'
+        soName = 'backtest_py_%s_%s.so' % (osName.lower(), archName)
+        crcFile = 'md5.json'
         loader = os.path.join("./depends", soName)
         if not os.path.exists(loader):
             hdic = {}
@@ -1567,7 +1570,7 @@ class VCtx(object):
             js = os.path.join(tmpCache, crcFile)
             if os.path.exists(js):
                 b = open(js, 'rb').read()
-                if os.getenv("BOTVS_TASK_UUID") is None or "72d1145853078287f6e611c7982438e2" in str(b):
+                if os.getenv("BOTVS_TASK_UUID") is None or "e82d1c74f2af6d8e3c14791ab8d522cb" in str(b):
                     hdic = json_loads(b)
             loader = os.path.join(tmpCache, soName)
             update = False
